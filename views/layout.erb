@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Movie Favorite App</title>
+</head>
+<body>
+  <h1>MOVIE FAVORITE APP</h1>
+  <nav>
+    <ul>
+      <%if is_user?%>
+        <li><a href="/users/logout">Logout</a></li>
+        <li><a href="/users">Users</a></li>
+      <%else%>
+        <li><a href="/users/login">Sign In</a></li>
+        <li><a href="/users/new">Sign Up</a></li>
+      <%end%>
+    </ul>
+  </nav>
+  <%= session[:flash_message] %><br/>
+  <% session[:flash_message] = ''%>
+  <%= yield %>
+</body>
+</html>

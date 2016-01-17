@@ -1,0 +1,12 @@
+<h3>Users</h3>
+<ol>
+<% @users.each do |user| %>
+  <li><a href="/users/<%=user.id%>">Id: <%= user.id %></a></li>
+  <ul>
+    <li>Email: <%= user.email %></li>
+    <li>Salt: <%= user.password_salt %></li>
+    <li>Hash: <%= user.password_hash %></li>
+  </ul>
+<% end %>
+</ol>
+<a href="/">Back to Home</a>
