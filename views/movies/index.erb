@@ -1,14 +1,17 @@
 <h3>Movies</h3>
-<ol>
-<% @movies.each do |movie| %>
-  <li><a href="/movies/<%=movie.id%>">Id: <%= movie.id %></a></li>
-  <ul>
-    <li>Title: <%= movie.title %></li>
-    <li>Genre: <%= movie.genre %></li>
-    <li>Year: <%= movie.year %></li>
-    <li>Synopsis: <%= movie.synopsis %></li>
-    <li>Image: <%= movie.image %></li>
-  </ul>
-<% end %>
-</ol>
+
+<div class='movietable'>
+  <%@movies.each do |movie|%>
+    <div class='movies'>
+      <a href="/movies/<%=movie.id%>">
+        <h2><%=movie.title%></h2>
+          <form method="post" action="/movies/<%= movie.id %>">
+            <input type="hidden" name="_method" value="delete">
+            <button type="submit">Delete</button>
+          </form>
+        <img src="<%=movie.image%>"/>
+      </a>
+    </div>
+  <%end%>
+<div>
 <a href="/">Back to Home</a>

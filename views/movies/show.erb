@@ -3,10 +3,14 @@
   <input type="hidden" name="_method" value="delete">
   <button type="submit">Delete</button>
 </form>
-<ul>
-  <li>Genre: <%= @movie.genre %></li>
-  <li>Year: <%= @movie.year %></li>
-  <li>Synopsis: <%= @movie.synopsis %></li>
-  <li>Image: <%= @movie.image %></li>
-</ul>
+<img src="<%=@movie.image%>"/>
+<div class="info">
+  <ul>
+    <li><b>Genre</b> <%=@movie.genre%></li>
+    <li><b>Year</b> <%=@movie.year%></li>
+    <li><b>Synopsis</b> <%=@movie.synopsis%></li>
+    <li><b>Image</b> <%=@movie.image%></li>
+  </ul>
+</div>
+
 <a href="/movies">Back to Movies</a>

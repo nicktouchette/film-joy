@@ -160,7 +160,7 @@ delete '/movies/:id', :auth => :owner  do
   movie = Movie.find(params[:id])
   movie.destroy
   set_flash "Movie deleted successfully."
-  redirect '/'
+  redirect '/movies'
 end
 
 # SEARCH ROUTES
@@ -169,7 +169,12 @@ get '/search' do
 end
 
 post '/search' do
+  puts "MOVIE SEARCH FOR #{params[:movie_search]}"
   @results = search_title params[:movie_search]
+  if @results["Response"] == "False"
+    set_flash @results["Error"]
+    redirect '/search'
+  end
   erb :results
 end
 
@@ -183,5 +188,5 @@ post '/search/:imdbid' do
   result = get_info params[:imdbid]
   user.movies.create(title: result["Title"], genre: result["Genre"], year: result["Year"], synopsis: result["Plot"],image: result["Poster"])
   set_flash "Movie added successfully."
-  redirect '/movies'
+  redirect '/search'
 end
