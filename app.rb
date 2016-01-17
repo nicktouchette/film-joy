@@ -1,35 +1,22 @@
 require 'sinatra'
 require 'sinatra/activerecord'
-require 'sinatra/reloader'
 require 'bcrypt'
 
-require_relative "models/user"
+require_relative 'models/user'
+require_relative 'helpers/helpers'
 
 # Session Helpers
 enable :sessions
+set :session_secret, 'super secret'
 
 register do
   def auth (type)
     condition do
       unless send("is_#{type}?")
-        session[:flash_message] = "Access Denied"
+        set_flash "Access Denied"
         redirect "/"
       end
     end
-  end
-end
-
-helpers do
-  def userid
-    return session[:id]
-  end
-
-  def is_user?
-    session[:id] != nil
-  end
-
-  def is_id?
-    session[:id].to_i == params[:id].to_i
   end
 end
 
@@ -40,13 +27,11 @@ end
 
 post "/users/login" do
   user = User.find_by(email: params[:email])
-  if user
-    if user[:password_hash] == BCrypt::Engine.hash_secret(params[:password], user[:password_salt])
-      session[:id] = user[:id]
-      redirect '/users'
-    end
+  if login?(user)
+    session[:id] = user[:id]
+    redirect '/users'
   end
-  session[:flash_message] = "Invalid Username or Password."
+  set_flash "Invalid username or password."
   erb :login
 end
 
@@ -68,61 +53,60 @@ get '/users', :auth => :user do
 end
 
 # create
-post '/users' do
+post '/users', :auth => :anon do
   if params[:password].blank?
-    session[:flash_message] = "Password can't be blank."
+    set_flash "Password can't be blank."
     redirect 'users/new'
   end
 
-  password_salt = BCrypt::Engine.generate_salt
-  password_hash = BCrypt::Engine.hash_secret(params[:password], password_salt)
-
-  user = User.new(:email => params[:email], :password_salt => password_salt, :password_hash => password_hash)
+  salt = make_salt
+  user = User.new(:email => params[:email], :password_salt => salt, :password_hash => generate_hash(params[:password], salt))
 
   if user.save
-    session[:flash_message] = "User Created"
+    set_flash "User Created"
     session[:id] = User.find_by(email: params[:email]).id
     redirect '/users'
   else
-    session[:flash_message] = "Email #{user.errors[:email][0]}."
+    set_flash "Email #{user.errors[:email][0]}."
     redirect 'users/new'
   end
 end
 
-#new
-get '/users/new' do
+# new
+get '/users/new', :auth => :anon do
   erb :'users/new'
 end
 
-#show
+# show
 get '/users/:id', :auth => :id do
   @user = User.find(params[:id])
   erb :'users/show'
 end
 
-#edit
+# edit
 get '/users/:id/edit', :auth => :id do
   @user = User.find(params[:id])
   erb :'users/edit'
 end
 
-#update
+# update
 patch '/users/:id', :auth => :id do
   user = User.find(params[:id])
   if !params[:new_password].blank?
-    if params[:new_password] == params[:confirm_new_password]
-      password_salt = BCrypt::Engine.generate_salt
-      password_hash = BCrypt::Engine.hash_secret(params[:new_password], password_salt)
-      user.update(email: params[:email], password_salt: password_salt, password_hash: password_hash)
+    if params[:new_password].to_s == params[:confirm_new_password].to_s
+      salt = make_salt
+      user.update(email: params[:email], password_salt: salt, password_hash: generate_hash(params[:new_password], salt))
+    else
+      set_flash "Password does not match."
+      redirect '/users/' << params[:id]
     end
-    session[:flash_message] = "Password does not match."
-    redirect '/users/' << params[:id]
   end
+  set_flash "User updated successfully."
   user.update(email: params[:email])
   redirect '/users'
 end
 
-#destroy
+# destroy
 delete '/users/:id', :auth => :id  do
   user = User.find(params[:id])
   session[:id] = nil
