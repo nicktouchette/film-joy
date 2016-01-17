@@ -33,6 +33,28 @@ helpers do
   end
 end
 
+# LOGIN AND LOGOUT
+get '/users/login' do
+  erb :login
+end
+
+post "/users/login" do
+  user = User.find_by(email: params[:email])
+  if user
+    if user[:password_hash] == BCrypt::Engine.hash_secret(params[:password], user[:password_salt])
+      session[:id] = user[:id]
+      redirect '/users'
+    end
+  end
+  session[:flash_message] = "Invalid Username or Password."
+  erb :login
+end
+
+get "/users/logout" do
+  session[:id] = nil
+  redirect '/'
+end
+
 # Home Directory
 get '/' do
   erb :home
@@ -67,27 +89,6 @@ post '/users' do
   end
 end
 
-get '/users/login' do
-  erb :login
-end
-
-post "/users/login" do
-  user = User.find_by(email: params[:email])
-  if user
-    if user[:password_hash] == BCrypt::Engine.hash_secret(params[:password], user[:password_salt])
-      session[:id] = user[:id]
-      redirect '/users'
-    end
-  end
-  session[:flash_message] = "Invalid Username/Password"
-  erb :login
-end
-
-get "/users/logout" do
-  session[:id] = nil
-  redirect '/'
-end
-
 #new
 get '/users/new' do
   erb :'users/new'
@@ -100,13 +101,31 @@ get '/users/:id', :auth => :id do
 end
 
 #edit
-get '/users/:id/edit' do
+get '/users/:id/edit', :auth => :id do
+  @user = User.find(params[:id])
+  erb :'users/edit'
 end
 
 #update
-patch '/users/:id' do
+patch '/users/:id', :auth => :id do
+  user = User.find(params[:id])
+  if !params[:new_password].blank?
+    if params[:new_password] == params[:confirm_new_password]
+      password_salt = BCrypt::Engine.generate_salt
+      password_hash = BCrypt::Engine.hash_secret(params[:new_password], password_salt)
+      user.update(email: params[:email], password_salt: password_salt, password_hash: password_hash)
+    end
+    session[:flash_message] = "Password does not match."
+    redirect '/users/' << params[:id]
+  end
+  user.update(email: params[:email])
+  redirect '/users'
 end
 
 #destroy
-delete '/users/:id' do
+delete '/users/:id', :auth => :id  do
+  user = User.find(params[:id])
+  session[:id] = nil
+  user.destroy
+  redirect '/'
 end

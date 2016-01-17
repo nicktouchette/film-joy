@@ -1,4 +1,8 @@
-<h3><%= @user.email %></h3>
+<h3><%= @user.email %> <a href="/users/<%=@user.id%>/edit">EDIT</a></h3>
+<form method="post" action="/users/<%= @user.id %>">
+  <input type="hidden" name="_method" value="delete">
+  <button type="submit">Delete</button>
+</form>
 <ul>
   <li>Id: <%= @user.id %></li>
   <li>Salt: <%= @user.password_salt %></li>

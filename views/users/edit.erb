@@ -1,0 +1,8 @@
+<h2>Edit</h2>
+<form action="/users/<%=@user.id%>" method="POST">
+  <input type="hidden" name="_method" value="PATCH">
+  <input type="text" name="email" value="<%=@user.email%>" placeholder="Enter Email"/>
+  <input type="text" name="new_password" placeholder="New Password"/>
+  <input type="text" name="confirm_new_password" placeholder="Confirm Password"/>
+  <input type="submit" value="Submit" />
+</form>
