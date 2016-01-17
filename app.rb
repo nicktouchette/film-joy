@@ -5,8 +5,8 @@ require 'bcrypt'
 require_relative 'models/user'
 require_relative 'models/movie'
 require_relative 'helpers/helpers'
+require_relative 'helpers/omdbhelpers'
 
-# Session Helpers
 enable :sessions
 set :session_secret, 'super secret'
 
@@ -136,7 +136,7 @@ post '/movies', :auth => :user do
 end
 
 # show
-get '/movies/:id', :auth => :owner do
+get '/movies/:id', :auth => :owner   do
   @movie = Movie.find(params[:id])
   erb :'movies/show'
 end
@@ -161,4 +161,27 @@ delete '/movies/:id', :auth => :owner  do
   movie.destroy
   set_flash "Movie deleted successfully."
   redirect '/'
+end
+
+# SEARCH ROUTES
+get '/search' do
+  erb :search
+end
+
+post '/search' do
+  @results = search_title params[:movie_search]
+  erb :results
+end
+
+get '/search/:imdbid' do
+  @result = get_info params[:imdbid]
+  erb :profile
+end
+
+post '/search/:imdbid' do
+  user = User.find(userid)
+  result = get_info params[:imdbid]
+  user.movies.create(title: result["Title"], genre: result["Genre"], year: result["Year"], synopsis: result["Plot"],image: result["Poster"])
+  set_flash "Movie added successfully."
+  redirect '/movies'
 end

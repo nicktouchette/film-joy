@@ -1,0 +1,16 @@
+<%=erb :search%>
+<%disallowed_keys = ["Title", "Poster","imdbID","Type","Response"]%>
+<h2><%=@result["Title"]%></h2>
+<form method="post" action="/search/<%=@result["imdbID"]%>">
+  <button type="submit">Add to collection</button>
+</form>
+<img src="<%=@result["Poster"]%>"/>
+<div class="info">
+  <ul>
+    <%@result.each do |key, value|%>
+      <%unless disallowed_keys.include? key%>
+        <li><b><%=key%></b> <%=value%></li>
+      <%end%>
+    <%end%>
+  </ul>
+</div>

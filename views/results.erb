@@ -1,0 +1,14 @@
+<%=erb :search%>
+<div class='results'>
+  <%@results["Search"].each do |result|%>
+    <div class='result'>
+      <a href="/search/<%=result["imdbID"]%>">
+        <h2><%=result["Title"]%></h2>
+        <form method="post" action="/search/<%=result["imdbID"]%>">
+          <button type="submit">Add to collection</button>
+        </form>
+        <img src="<%=result["Poster"]%>"/>
+      </a>
+    </div>
+  <%end%>
+<div>
