@@ -1,0 +1,10 @@
+<h2>Edit Movie</h2>
+<form action="/movies/<%=@movie.id%>" method="POST">
+  <input type="hidden" name="_method" value="PATCH">
+  <input type="text" name="movie[title]" value="<%=@movie.title%>" placeholder="Enter Title"/>
+  <input type="text" name="movie[genre]" value="<%=@movie.genre%>" placeholder="Enter Genre"/>
+  <input type="text" name="movie[year]" value="<%=@movie.year%>" placeholder="Enter Year"/>
+  <input type="text" name="movie[synopsis]" value="<%=@movie.synopsis%>" placeholder="Enter Synopsis"/>
+  <input type="text" name="movie[image]" value="<%=@movie.image%>" placeholder="Enter Image URL"/>
+  <input type="submit" value="Submit" />
+</form>

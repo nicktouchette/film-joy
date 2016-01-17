@@ -11,6 +11,10 @@ module UserSession
     end
   end
 
+  def is_owner?
+    Movie.find(params[:id]).user_id == userid
+  end
+
   def is_anon?
     session[:id] == nil
   end

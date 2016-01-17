@@ -1,0 +1,14 @@
+<h3>Movies</h3>
+<ol>
+<% @movies.each do |movie| %>
+  <li><a href="/movies/<%=movie.id%>">Id: <%= movie.id %></a></li>
+  <ul>
+    <li>Title: <%= movie.title %></li>
+    <li>Genre: <%= movie.genre %></li>
+    <li>Year: <%= movie.year %></li>
+    <li>Synopsis: <%= movie.synopsis %></li>
+    <li>Image: <%= movie.image %></li>
+  </ul>
+<% end %>
+</ol>
+<a href="/">Back to Home</a>

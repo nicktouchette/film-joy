@@ -3,6 +3,7 @@ require 'sinatra/activerecord'
 require 'bcrypt'
 
 require_relative 'models/user'
+require_relative 'models/movie'
 require_relative 'helpers/helpers'
 
 # Session Helpers
@@ -111,5 +112,53 @@ delete '/users/:id', :auth => :id  do
   user = User.find(params[:id])
   session[:id] = nil
   user.destroy
+  redirect '/'
+end
+
+# MOVIE ROUTES
+# index
+get '/movies', :auth => :user do
+  @movies = Movie.where("user_id = ?", session[:id])
+  erb :'movies/index'
+end
+
+# new
+get '/movies/new', :auth => :user do
+  erb :'movies/new'
+end
+
+# create
+post '/movies', :auth => :user do
+  user = User.find(userid)
+  movie = user.movies.create(params[:movie])
+  set_flash "Movie added successfully."
+  redirect '/movies'
+end
+
+# show
+get '/movies/:id', :auth => :owner do
+  @movie = Movie.find(params[:id])
+  erb :'movies/show'
+end
+
+# edit
+get '/movies/:id/edit', :auth => :owner do
+  @movie = Movie.find(params[:id])
+  erb :'movies/edit'
+end
+
+# update
+patch '/movies/:id', :auth => :owner  do
+  movie = Movie.find(params[:id])
+  movie.update(params[:movie])
+  set_flash "Movie updated successfully."
+  redirect '/movies/' << params[:id]
+end
+
+# destroy
+delete '/movies/:id', :auth => :owner  do
+  movie = Movie.find(params[:id])
+  movie.destroy
+  set_flash "Movie deleted successfully."
   redirect '/'
 end
