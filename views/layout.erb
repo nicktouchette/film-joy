@@ -7,7 +7,7 @@
 <body>
   <h1>Film Joy</h1>
   <nav>
-   <!--  <p>Signed in as <%=%></p> -->
+    <%= "<p>Signed in as #{username}</p>" if is_user? %>
     <ul>
       <%if is_user?%>
         <li><a href="/users/logout">Logout</a></li>

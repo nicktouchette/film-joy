@@ -5,6 +5,12 @@ module UserSession
     return session[:id]
   end
 
+  def username
+    if userid
+      User.find(userid).email
+    end
+  end
+
   def is_anon?
     session[:id] == nil
   end
