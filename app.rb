@@ -169,7 +169,6 @@ get '/search', :auth => :user do
 end
 
 post '/search', :auth => :user do
-  puts "MOVIE SEARCH FOR #{params[:movie_search]}"
   @results = search_title params[:movie_search]
   if @results["Response"] == "False"
     set_flash @results["Error"]
@@ -188,7 +187,7 @@ post '/search/:imdbid', :auth => :user do
   result = get_info params[:imdbid]
   movie = user.movies.create(title: result["Title"], genre: result["Genre"], year: result["Year"], synopsis: result["Plot"],image: result["Poster"])
   if movie.errors.any?
-    set_flash "Movie already in collection."
+    set_flash "Movie cannot be added"
   else
     set_flash "Movie added successfully."
   end

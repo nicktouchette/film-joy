@@ -6,7 +6,7 @@
   <form method="post" action="/search/<%=@result["imdbID"]%>">
     <button class="btn btn-block btn-primary" type="submit">Add to collection</button>
   </form>
-  <!-- <img src="<%=@result["Poster"]%>"/> -->
+  <img src="<%=@result["Poster"]%>"/>
   <div class="info">
     <ul>
       <%@result.each do |key, value|%>
