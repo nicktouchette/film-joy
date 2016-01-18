@@ -66,7 +66,7 @@ post '/users', :auth => :anon do
   if user.save
     set_flash "User Created"
     session[:id] = User.find_by(email: params[:email]).id
-    redirect '/users/' << userid
+    redirect '/users/' + userid.to_s
   else
     set_flash "Email #{user.errors[:email][0]}."
     redirect 'users/new'
