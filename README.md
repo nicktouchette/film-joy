@@ -1,13 +1,14 @@
 # FilmJoy
 A favorite movie database created with Sinatra.  Complete with multi-user support.
 
-## Gems Used
+## Technology Used
 - Sinatra
 - Sinatra-activerecord (extends rake tasks to Sinatra)
-- Postgresql
 - ActiveRecord
+- Postgresql
 - Rake
 - Bcrypt
+- Bootstrap
 
 ## How to use
 
@@ -32,3 +33,8 @@ Add's all tables according to migration files.
 ruby app.rb
 ```
 The ruby server will start, and the app can be located at localhost:4567, if the port was left to default.
+
+## Summary
+
+The authZ/authN was coded from the ground up.  Password encryption + salting was achieved with Bcrypt.  ActiveRecord migrations were used in conjunction with Sinatra.  Bootstrap was used for the styling.
+
