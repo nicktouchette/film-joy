@@ -1,8 +1,16 @@
-<h2>Edit</h2>
-<form action="/users/<%=@user.id%>" method="POST">
-  <input type="hidden" name="_method" value="PATCH">
-  <input type="text" name="email" value="<%=@user.email%>" placeholder="Enter Email"/>
-  <input type="text" name="new_password" placeholder="New Password"/>
-  <input type="text" name="confirm_new_password" placeholder="Confirm Password"/>
-  <input type="submit" value="Submit" />
-</form>
+<div class="container">
+  <h2>Edit</h2>
+  <form action="/users/<%=@user.id%>" method="POST">
+    <div class="form-group col-md-4 col-md-offset-4">
+      <input type="hidden" name="_method" value="PATCH">
+      <label for="newEmail">New Email address</label>
+      <input type="email" name="email" class="form-control" id="newEmail" placeholder="Email">
+      <label for="newPassword">New Password</label>
+      <input type="password" name="new_password" class="form-control" id="newPassword" placeholder="New Password">
+      <label for="confirmPassword">New Password</label>
+      <input type="password" name="confirm_new_password" class="form-control" id="confirmPassword" placeholder="Confirm Password">
+    </div>
+    <input class="btn btn-primary col-md-2 col-md-offset-4" type="submit" value="Submit" />
+    <a href="/users/<%=@user.id%>" class="btn btn-danger col-md-2">Cancel</a>
+  </form>
+</div>

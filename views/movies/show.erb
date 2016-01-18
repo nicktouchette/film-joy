@@ -1,16 +1,16 @@
-<h3><%= @movie.title %> <a href="/movies/<%=@movie.id%>/edit">EDIT</a></h3>
-<form method="post" action="/movies/<%= @movie.id %>">
-  <input type="hidden" name="_method" value="delete">
-  <button type="submit">Delete</button>
-</form>
-<img src="<%=@movie.image%>"/>
-<div class="info">
-  <ul>
-    <li><b>Genre</b> <%=@movie.genre%></li>
-    <li><b>Year</b> <%=@movie.year%></li>
-    <li><b>Synopsis</b> <%=@movie.synopsis%></li>
-    <li><b>Image</b> <%=@movie.image%></li>
-  </ul>
+<div class="profile">
+  <h3><%= @movie.title %></h3>
+  <a class="btn btn-block btn-primary" href="/movies/<%=@movie.id%>/edit">EDIT</a>
+  <form method="post" action="/movies/<%= @movie.id %>">
+    <input type="hidden" name="_method" value="delete">
+    <button class="btn btn-block btn-danger" type="submit">Delete</button>
+  </form>
+  <img src="<%=@movie.image%>"/>
+  <div class="info">
+    <ul>
+      <li><b>Genre</b> <%=@movie.genre%></li>
+      <li><b>Year</b> <%=@movie.year%></li>
+      <li><b>Synopsis</b> <%=@movie.synopsis%></li>
+    </ul>
+  </div>
 </div>
-
-<a href="/movies">Back to Movies</a>

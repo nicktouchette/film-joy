@@ -1,10 +1,20 @@
-<h2>Edit Movie</h2>
-<form action="/movies/<%=@movie.id%>" method="POST">
-  <input type="hidden" name="_method" value="PATCH">
-  <input type="text" name="movie[title]" value="<%=@movie.title%>" placeholder="Enter Title"/>
-  <input type="text" name="movie[genre]" value="<%=@movie.genre%>" placeholder="Enter Genre"/>
-  <input type="text" name="movie[year]" value="<%=@movie.year%>" placeholder="Enter Year"/>
-  <input type="text" name="movie[synopsis]" value="<%=@movie.synopsis%>" placeholder="Enter Synopsis"/>
-  <input type="text" name="movie[image]" value="<%=@movie.image%>" placeholder="Enter Image URL"/>
-  <input type="submit" value="Submit" />
-</form>
+<div class="container">
+  <h2>Edit Movie</h2>
+  <form action="/movies/<%=@movie.id%>" method="POST">
+    <div class="form-group col-md-4 col-md-offset-4">
+      <input type="hidden" name="_method" value="PATCH">
+      <label for="newTitle">New Title</label>
+      <input class="form-control" type="text" name="movie[title]" value="<%=@movie.title%>" id="newTitle" placeholder="Enter Title"/>
+      <label for="newGenre">New Genre</label>
+      <input class="form-control" type="text" name="movie[genre]" value="<%=@movie.genre%>" id="newGenre" placeholder="Enter Genre"/>
+      <label for="newYear">New Year</label>
+      <input class="form-control" type="text" name="movie[year]" value="<%=@movie.year%>" id="newYear" placeholder="Enter Year"/>
+      <label for="newSynopsis">New Synopsis</label>
+      <input class="form-control" type="text" name="movie[synopsis]" value="<%=@movie.synopsis%>" id="newSynopsis" placeholder="Enter Synopsis"/>
+      <label for="newImage">New Image</label>
+      <input class="form-control" type="text" name="movie[image]" value="<%=@movie.image%>" id="newImage" placeholder="Enter Image URL"/>
+    </div>
+    <input class="btn btn-primary col-md-2 col-md-offset-4" type="submit" value="Submit" />
+    <a href="/movies/<%=@movie.id%>" class="btn btn-danger col-md-2">Cancel</a>
+  </form>
+</div>

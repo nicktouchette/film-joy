@@ -1,14 +1,15 @@
 <%=erb :search%>
-<div class='movietable'>
+<hr>
+<div class='container-fluid'>
   <%@results["Search"].each do |result|%>
-    <div class='movies'>
-      <a href="/search/<%=result["imdbID"]%>">
+    <div class='movie'>
+      <a class="img-responsive" href="/search/<%=result["imdbID"]%>">
         <h2><%=result["Title"]%></h2>
-        <form method="post" action="/search/<%=result["imdbID"]%>">
-          <button type="submit">Add to collection</button>
-        </form>
         <img src="<%=result["Poster"]%>"/>
       </a>
+      <form method="post" action="/search/<%=result["imdbID"]%>">
+        <button class="btn btn-primary" type="submit">Add to collection</button>
+      </form>
     </div>
   <%end%>
 <div>

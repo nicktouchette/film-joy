@@ -30,10 +30,10 @@ post "/users/login" do
   user = User.find_by(email: params[:email])
   if login?(user)
     session[:id] = user[:id]
-    redirect '/users'
+    redirect '/movies'
   end
   set_flash "Invalid username or password."
-  erb :login
+  redirect '/'
 end
 
 get "/users/logout" do
@@ -48,7 +48,7 @@ end
 
 # USER ROUTES
 # index
-get '/users', :auth => :user do
+get '/users', :auth => :admin do
   @users = User.all
   erb :'users/index'
 end
@@ -66,7 +66,7 @@ post '/users', :auth => :anon do
   if user.save
     set_flash "User Created"
     session[:id] = User.find_by(email: params[:email]).id
-    redirect '/users'
+    redirect '/users/' << userid
   else
     set_flash "Email #{user.errors[:email][0]}."
     redirect 'users/new'
@@ -104,7 +104,7 @@ patch '/users/:id', :auth => :id do
   end
   set_flash "User updated successfully."
   user.update(email: params[:email])
-  redirect '/users'
+  redirect '/users/' << userid
 end
 
 # destroy
@@ -118,7 +118,7 @@ end
 # MOVIE ROUTES
 # index
 get '/movies', :auth => :user do
-  @movies = Movie.where("user_id = ?", session[:id])
+  @movies = Movie.order(:title).where("user_id = ?", session[:id])
   erb :'movies/index'
 end
 
@@ -136,7 +136,7 @@ post '/movies', :auth => :user do
 end
 
 # show
-get '/movies/:id', :auth => :owner   do
+get '/movies/:id', :auth => :owner do
   @movie = Movie.find(params[:id])
   erb :'movies/show'
 end
@@ -148,7 +148,7 @@ get '/movies/:id/edit', :auth => :owner do
 end
 
 # update
-patch '/movies/:id', :auth => :owner  do
+patch '/movies/:id', :auth => :owner do
   movie = Movie.find(params[:id])
   movie.update(params[:movie])
   set_flash "Movie updated successfully."
@@ -156,7 +156,7 @@ patch '/movies/:id', :auth => :owner  do
 end
 
 # destroy
-delete '/movies/:id', :auth => :owner  do
+delete '/movies/:id', :auth => :owner do
   movie = Movie.find(params[:id])
   movie.destroy
   set_flash "Movie deleted successfully."
@@ -164,11 +164,11 @@ delete '/movies/:id', :auth => :owner  do
 end
 
 # SEARCH ROUTES
-get '/search' do
+get '/search', :auth => :user do
   erb :search
 end
 
-post '/search' do
+post '/search', :auth => :user do
   puts "MOVIE SEARCH FOR #{params[:movie_search]}"
   @results = search_title params[:movie_search]
   if @results["Response"] == "False"
@@ -178,15 +178,19 @@ post '/search' do
   erb :results
 end
 
-get '/search/:imdbid' do
+get '/search/:imdbid', :auth => :user do
   @result = get_info params[:imdbid]
   erb :profile
 end
 
-post '/search/:imdbid' do
+post '/search/:imdbid', :auth => :user do
   user = User.find(userid)
   result = get_info params[:imdbid]
-  user.movies.create(title: result["Title"], genre: result["Genre"], year: result["Year"], synopsis: result["Plot"],image: result["Poster"])
-  set_flash "Movie added successfully."
+  movie = user.movies.create(title: result["Title"], genre: result["Genre"], year: result["Year"], synopsis: result["Plot"],image: result["Poster"])
+  if movie.errors.any?
+    set_flash "Movie already in collection."
+  else
+    set_flash "Movie added successfully."
+  end
   redirect '/search'
 end

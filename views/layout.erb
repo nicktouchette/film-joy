@@ -1,28 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Film Joy</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/cover.css" >
+  <link rel="stylesheet" href="/css/signin.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <h1>Film Joy</h1>
-  <nav>
-    <%= "<p>Signed in as #{username}</p>" if is_user? %>
-    <ul>
-      <li><a href="/search">Search</a></li>
-      <%if is_user?%>
-        <li><a href="/users/logout">Logout</a></li>
-        <li><a href="/users">Users</a></li>
-        <li><a href="/movies">List all Movies</a></li>
-        <li><a href="/movies/new">Add a movie</a></li>
-      <%else%>
-        <li><a href="/users/login">Sign In</a></li>
-        <li><a href="/users/new">Sign Up</a></li>
-      <%end%>
-    </ul>
-  </nav>
-  <%= get_flash %><br/>
-  <%= yield %>
+  <div class="site-wrapper">
+    <div class="site-wrapper-inner">
+      <div class="cover-container">
+        <div class="masthead clearfix">
+          <div class="inner">
+            <h3 class="masthead-brand">Filmjoy</h3>
+            <nav>
+              <ul class="nav masthead-nav">
+                <li><a href="/">Home</a></li>
+                <%if is_user?%>
+                  <li><a href="/search">Search</a></li>
+                  <li><a href="/movies">My Collection</a></li>
+                  <li><a href="/users/<%=userid%>">Profile</a></li>
+                  <li><a href="/users/logout">Logout</a></li>
+                <%else%>
+                  <li><a href="/users/new">Sign Up</a></li>
+                <%end%>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <div class="inner cover">
+          <%flash = get_flash%>
+          <%unless flash.blank?%>
+            <span class='flash'><%=flash%></span>
+          <%end%>
+          <%= yield %>
+        </div>
+        <div class="mastfoot">
+          <div class="inner">
+            <a href="http://nicktouchette.com">nicktouchette.com</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 </html>

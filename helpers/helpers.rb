@@ -27,6 +27,10 @@ module UserSession
     session[:id].to_i == params[:id].to_i
   end
 
+  def is_admin?
+    session[:id].to_i == 1
+  end
+
   def login? user
     user[:password_hash] == generate_hash(params[:password], user[:password_salt])
   end

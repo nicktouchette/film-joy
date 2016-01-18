@@ -1,11 +1,13 @@
-<h3><%= @user.email %> <a href="/users/<%=@user.id%>/edit">EDIT</a></h3>
-<form method="post" action="/users/<%= @user.id %>">
-  <input type="hidden" name="_method" value="delete">
-  <button type="submit">Delete</button>
-</form>
-<ul>
-  <li>Id: <%= @user.id %></li>
-  <li>Salt: <%= @user.password_salt %></li>
-  <li>Hash: <%= @user.password_hash %></li>
-</ul>
-<a href="/users">Back to Users</a>
+<div class="container">
+  <h3><%= @user.email %></h3>
+  <ul>
+    <li>Id: <%= @user.id %></li>
+    <li>Salt: <%= @user.password_salt %></li>
+    <li>Hash: <%= @user.password_hash %></li>
+  </ul>
+  <a href="/users/<%=@user.id%>/edit" class="btn btn-primary col-md-2 col-md-offset-4">EDIT</a>
+  <form method="post" action="/users/<%= @user.id %>">
+    <input type="hidden" name="_method" value="delete">
+    <button class="btn btn-danger col-md-2" type="submit">Delete</button>
+  </form>
+</div>

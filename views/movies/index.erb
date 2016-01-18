@@ -1,17 +1,19 @@
-<h3>Movies</h3>
+<h3>My Collection</h3>
 
-<div class='movietable'>
+<div class='container-fluid'>
   <%@movies.each do |movie|%>
-    <div class='movies'>
-      <a href="/movies/<%=movie.id%>">
+    <div class='movie'>
+      <a class="img-responsive" href="/movies/<%=movie.id%>">
         <h2><%=movie.title%></h2>
-          <form method="post" action="/movies/<%= movie.id %>">
-            <input type="hidden" name="_method" value="delete">
-            <button type="submit">Delete</button>
-          </form>
         <img src="<%=movie.image%>"/>
       </a>
+      <div class='container-fluid'>
+        <a href="/movies/<%=movie.id%>/edit" class="btn btn-primary col-md-6 edit" type="submit">Edit</a>
+        <form method="post" action="/movies/<%= movie.id %>">
+          <input type="hidden" name="_method" value="delete">
+          <button class="btn btn-danger col-md-6" type="submit">Delete</button>
+        </form>
+      </div>
     </div>
   <%end%>
-<div>
-<a href="/">Back to Home</a>
+</div>
