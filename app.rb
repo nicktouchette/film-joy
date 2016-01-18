@@ -99,12 +99,12 @@ patch '/users/:id', :auth => :id do
       user.update(email: params[:email], password_salt: salt, password_hash: generate_hash(params[:new_password], salt))
     else
       set_flash "Password does not match."
-      redirect '/users/' << params[:id]
+      redirect '/users/' + params[:id].to_s
     end
   end
   set_flash "User updated successfully."
   user.update(email: params[:email])
-  redirect '/users/' << userid
+  redirect '/users/' + userid.to_s
 end
 
 # destroy
