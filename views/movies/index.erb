@@ -1,6 +1,7 @@
 <h3>My Collection</h3>
 
 <div class='container-fluid'>
+  <%="<h3>Your Collection is Empty</h3>" if @movies.empty? %>
   <%@movies.each do |movie|%>
     <div class='movie'>
       <a class="img-responsive" href="/movies/<%=movie.id%>">
