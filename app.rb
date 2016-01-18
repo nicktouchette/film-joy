@@ -191,5 +191,5 @@ post '/search/:imdbid', :auth => :user do
   else
     set_flash "Movie added successfully."
   end
-  redirect '/search'
+  redirect '/movies'
 end
