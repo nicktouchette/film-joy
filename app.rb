@@ -28,7 +28,7 @@ end
 
 post "/users/login" do
   user = User.find_by(email: params[:email])
-  if login?(user)
+  if !user.blank? && login?(user)
     session[:id] = user[:id]
     redirect '/movies'
   end
