@@ -5,7 +5,7 @@ require 'json'
 module OmdbHelpers
   @@omdb_root = omdb_root = "http://www.omdbapi.com/?"
   def search_title search
-    url = (@@omdb_root << "s=" << search).to_s
+    url = URI.escape(@@omdb_root << "s=" << search)
     uri = URI(url)
     response = Net::HTTP.get(uri)
     return JSON.parse(response)
