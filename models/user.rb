@@ -1,4 +1,4 @@
 class User < ActiveRecord::Base
   has_many :movies, dependent: :destroy
-  validates :email, presence: true, :case_sensitive => false, uniqueness: true, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
+  validates :email, presence: true, uniqueness: {:case_sensitive => false}, format: { with: /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/ }
 end
