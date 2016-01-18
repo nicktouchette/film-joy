@@ -1,11 +1,12 @@
 require 'sinatra/base'
 require 'net/http'
 require 'json'
+require 'uri'
 
 module OmdbHelpers
   @@omdb_root = omdb_root = "http://www.omdbapi.com/?"
   def search_title search
-    url = URI.escape(@@omdb_root << "s=" << search)
+    url = URI.escape((@@omdb_root << "s=" << search).to_s)
     uri = URI(url)
     response = Net::HTTP.get(uri)
     return JSON.parse(response)
@@ -13,7 +14,7 @@ module OmdbHelpers
   end
 
   def get_info imdbid
-    url = (@@omdb_root << "i=" << imdbid).to_s
+    url = URI.escape((@@omdb_root << "i=" << imdbid).to_s)
     uri = URI(url)
     response = Net::HTTP.get(uri)
     return JSON.parse(response)
