@@ -1,12 +1,12 @@
 <h3>My Collection</h3>
-
+<a href="/movies/new" class="btn btn-primary">Add Movie Manually</a>
 <div class='container-fluid'>
   <%="<h3>Your Collection is Empty</h3>" if @movies.empty? %>
   <%@movies.each do |movie|%>
     <div class='movie'>
       <a class="img-responsive" href="/movies/<%=movie.id%>">
         <h2><%=movie.title%></h2>
-        <img src="<%=movie.image%>"/>
+        <!-- <img src="<%=movie.image%>"/> -->
       </a>
       <div class='container-fluid'>
         <a href="/movies/<%=movie.id%>/edit" class="btn btn-primary col-md-6 edit" type="submit">Edit</a>

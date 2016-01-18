@@ -5,7 +5,7 @@
     <div class='movie'>
       <a class="img-responsive" href="/search/<%=result["imdbID"]%>">
         <h2><%=result["Title"]%></h2>
-        <img src="<%=result["Poster"]%>"/>
+        <!-- <img src="<%=result["Poster"]%>"/> -->
       </a>
       <form method="post" action="/search/<%=result["imdbID"]%>">
         <button class="btn btn-primary" type="submit">Add to collection</button>

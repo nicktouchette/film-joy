@@ -1,9 +1,19 @@
-<h2>Add Movie</h2>
-<form action="/movies" method="POST">
-  <input type="text" name="movie[title]" placeholder="Enter Title"/>
-  <input type="text" name="movie[genre]" placeholder="Enter Genre"/>
-  <input type="text" name="movie[year]" placeholder="Enter Year"/>
-  <input type="text" name="movie[synopsis]" placeholder="Enter Synopsis"/>
-  <input type="text" name="movie[image]" placeholder="Enter Image URL"/>
-  <input type="submit" value="Submit" />
-</form>
+<div class="container">
+  <h2>Add Movie</h2>
+  <form action="/movies" method="POST">
+    <div class="form-group col-md-4 col-md-offset-4">
+      <label for="newTitle">Title</label>
+      <input class="form-control" type="text" name="movie[title]" id="newTitle" placeholder="Enter Title"/>
+      <label for="newGenre">Genre</label>
+      <input class="form-control" type="text" name="movie[genre]" id="newGenre" placeholder="Enter Genre"/>
+      <label for="newYear">Year</label>
+      <input class="form-control" type="text" name="movie[year]" id="newYear" placeholder="Enter Year"/>
+      <label for="newSynopsis">Synopsis</label>
+      <input class="form-control" type="text" name="movie[synopsis]" id="newSynopsis" placeholder="Enter Synopsis"/>
+      <label for="newImage">Image</label>
+      <input class="form-control" type="text" name="movie[image]" id="newImage" placeholder="Enter Image URL"/>
+    </div>
+    <input class="btn btn-primary col-md-2 col-md-offset-4" type="submit" value="Submit" />
+    <a href="/movies" class="btn btn-danger col-md-2">Cancel</a>
+  </form>
+</div>
