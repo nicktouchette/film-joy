@@ -16,11 +16,11 @@ module UserSession
   end
 
   def is_anon?
-    session[:id] == nil
+    session[:id].blank?
   end
 
   def is_user?
-    session[:id] != nil
+    !session[:id].blank?
   end
 
   def is_id?

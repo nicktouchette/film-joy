@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'bcrypt'
+require './config/environments'
 
 require_relative 'models/user'
 require_relative 'models/movie'
@@ -8,15 +9,12 @@ require_relative 'helpers/helpers'
 require_relative 'helpers/omdbhelpers'
 
 enable :sessions
-set :session_secret, 'super secret'
 
-register do
-  def auth (type)
-    condition do
-      unless send("is_#{type}?")
-        set_flash "Access Denied"
-        redirect "/"
-      end
+set(:auth) do |*roles|
+  condition do
+    unless roles.any? {|role| send("is_#{role}?") }
+      set_flash "Access Denied"
+      redirect "/"
     end
   end
 end
