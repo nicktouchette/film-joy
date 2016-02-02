@@ -8,7 +8,11 @@ require_relative 'models/movie'
 require_relative 'helpers/helpers'
 require_relative 'helpers/omdbhelpers'
 
-enable :sessions
+use Rack::Session::Cookie, :key => 'session',
+                           :path => '/',
+                           :expire_after => 2592000,
+                           :secret => '1cfb3708b8fbf1387f902cf1c66c39ee34c3f507d5b98b25d6df37f08e92dd7816f72d2f1072cf42a0d820dae8721e104026d92715e49f6f0341e73d9dbdf15d',
+                           :old_secret => 'dd938f904398f3f67d0269491f6b67328d038c8138ffb9789126d086e941d92cb47989b2355bbcf035e4f47ab0be2622f43902992d73b56b6f2aa941143f25a6'
 
 set(:auth) do |*roles|
   condition do
