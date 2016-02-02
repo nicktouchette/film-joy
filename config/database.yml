@@ -1,0 +1,12 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+
+development:
+  <<: *default
+  database: favorite_movies_dev
+  host: localhost
+
+production:
+  <<: *default
+  database: favorite_movies

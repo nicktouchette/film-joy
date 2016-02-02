@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'bcrypt'
-require './config/environments'
 
 require_relative 'models/user'
 require_relative 'models/movie'
